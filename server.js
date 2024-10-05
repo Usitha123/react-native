@@ -43,6 +43,17 @@ app.get('/api/users', async (req, res) => {
   }
 });
 
+// New Route to retrieve all emails
+app.get('/api/users/emails', async (req, res) => {
+  try {
+    const users = await User.find({}, 'email'); // Only retrieve the email field
+    const emails = users.map(user => user.email); // Extract the emails
+    res.json(emails); // Send the emails as a response
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 app.post('/api/users', async (req, res) => {
   const { name, email } = req.body;
   const user = new User({ name, email });
